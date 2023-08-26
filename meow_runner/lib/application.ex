@@ -66,18 +66,12 @@ defmodule MeowRunner.Application do
   def emigration_settings(_, 1) do
     []
   end
-  def emigration_settings(_, _) do
+  def emigration_settings({_, migration_interval, topology, emigration_size, emigrate_selection, imigrate_selection}, _) do
     [
-      Meow.Ops.emigrate(MeowNx.Ops.selection_natural(5), topology_settings(:ring), interval: 10),
-      Meow.Ops.immigrate(&MeowNx.Ops.selection_natural(&1), interval: 10)
+      Meow.Ops.emigrate(selection_settings({emigrate_selection, emigration_size}), topology_settings(topology), interval: migration_interval, number_of_targets: :all),
+      imigration_selection_settings(imigrate_selection, migration_interval)
     ]
   end
-  #def emigration_settings({_, migration_interval, topology, emigration_size, emigrate_selection, imigrate_selection}, _) do
-  #  [
-  #    Meow.Ops.emigrate(selection_settings({emigrate_selection, emigration_size}), topology_settings(topology), interval: migration_interval),
-  #    imigration_selection_settings(imigrate_selection, migration_interval)
-  #  ]
-  #end
 
   def topology_settings(:ring) do
     &Meow.Topology.ring/2

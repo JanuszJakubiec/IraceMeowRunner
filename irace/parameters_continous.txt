@@ -32,7 +32,7 @@ populations_number "--populations=" i (1, 10)
 migrate_animals "--migrate_animals=" c (true, false) | populations_number > 1
 emigration_interval "--interval=" i (1, 10) | migrate_animals == "true"
 emigration_topology "--topology=" c (ring,mesh2d,mesh3d,fully_connected,star) | migrate_animals == "true"
-emigration_size "--emigration_size=" i (1,8) | migrate_animals == "true"
+emigration_size "--emigration_size=" i (1, 8) | migrate_animals == "true"
 emigration_selection "--emigration_selection=" c (tournament, natural,roulette,sus) | migrate_animals == "true"
 imigration_selection "--imigration_selection=" c (tournament, natural,roulette,sus) | migrate_animals == "true"
 preserve_best_genes "--preserve_best_genes=" c (true, false)
