@@ -5,14 +5,13 @@ defmodule MeowRunner.Application do
     Node.start(:"meow_runner@127.0.0.1")
   end
 
-  def run_rastrigin(function, half_population_size, number_of_evaluations, populations_n, genomes_modification_params, emigration_params) do
+  def run_meow(function, half_population_size, number_of_evaluations, populations_n, genomes_modification_params, emigration_params) do
     algorithm =
       Meow.objective(
         get_function(function)
       )
       |> Meow.add_pipeline(
-        MeowNx.Ops.init_binary_random_uniform(half_population_size*2, 10),
-        #MeowNx.Ops.init_real_random_uniform(half_population_size*2, 10, -5.12, 5.12),
+        init_function(function_type(function), half_population_size, 10),
         Meow.pipeline(
           genomes_modification_settings(genomes_modification_params) ++
           emigration_settings(emigration_params, populations_n) ++
@@ -40,15 +39,28 @@ defmodule MeowRunner.Application do
                end)
   end
 
-  def get_function(Backpack), do: &Backpack.evaluate_backpack/1
-  def get_function(Rastrigin), do: &Rastrigin.evaluate_rastrigin/1
+  defp get_function(Backpack), do: &Backpack.evaluate_backpack/1
+  defp get_function(Rastrigin), do: &Rastrigin.evaluate_rastrigin/1
+  defp get_function(SumSquares), do: &SumSquares.evaluate_sum_squares/1
 
-  def genomes_modification_settings({false, mutation_selection, crossover_params, mutation_params}) do
+  defp function_type(Backpack), do: :discrete
+  defp function_type(Rastrigin), do: :continous
+  defp function_type(SumSquares), do: :continous
+
+  defp init_function(:discrete, half_population_size, size) do
+    MeowNx.Ops.init_binary_random_uniform(half_population_size*2, size)
+  end
+
+  defp init_function(:continous, half_population_size, size) do
+    MeowNx.Ops.init_real_random_uniform(half_population_size*2, size, -5.12, 5.12)
+  end
+
+  defp genomes_modification_settings({false, mutation_selection, crossover_params, mutation_params}) do
     [selection_settings({mutation_selection, 1.0})] ++
     crossover_settings(crossover_params) ++
     mutation_settings(mutation_params)
   end
-  def genomes_modification_settings({true, fittest_survival, fittest_selection, mutation_selection, crossover_params, mutation_params}) do
+  defp genomes_modification_settings({true, fittest_survival, fittest_selection, mutation_selection, crossover_params, mutation_params}) do
     fittest_survival = 2 * fittest_survival
     [Meow.Ops.split_join([
       Meow.pipeline([selection_settings({fittest_selection, fittest_survival})]),
@@ -60,78 +72,78 @@ defmodule MeowRunner.Application do
     ])]
   end
 
-  def emigration_settings({false, _, _, _, _, _}, _) do
+  defp emigration_settings({false, _, _, _, _, _}, _) do
     []
   end
-  def emigration_settings(_, 1) do
+  defp emigration_settings(_, 1) do
     []
   end
-  def emigration_settings({_, migration_interval, topology, emigration_size, emigrate_selection, imigrate_selection}, _) do
+  defp emigration_settings({_, migration_interval, topology, emigration_size, emigrate_selection, imigrate_selection}, _) do
     [
       Meow.Ops.emigrate(selection_settings({emigrate_selection, emigration_size}), topology_settings(topology), interval: migration_interval, number_of_targets: :all),
       imigration_selection_settings(imigrate_selection, migration_interval)
     ]
   end
 
-  def topology_settings(:ring) do
+  defp topology_settings(:ring) do
     &Meow.Topology.ring/2
   end
-  def topology_settings(:star) do
+  defp topology_settings(:star) do
     &Meow.Topology.star/2
   end
-  def topology_settings(:mesh2d) do
+  defp topology_settings(:mesh2d) do
     &Meow.Topology.mesh2d/2
   end
-  def topology_settings(:mesh3d) do
+  defp topology_settings(:mesh3d) do
     &Meow.Topology.mesh3d/2
   end
-  def topology_settings(:fully_connected) do
+  defp topology_settings(:fully_connected) do
     &Meow.Topology.fully_connected/2
   end
 
-  def mutation_settings({:shift_gaussian, probability, sigma}) do
+  defp mutation_settings({:shift_gaussian, probability, sigma}) do
     [MeowNx.Ops.mutation_shift_gaussian(probability, sigma: sigma)]
   end
-  def mutation_settings({:replace_uniform, probability, _}) do
+  defp mutation_settings({:replace_uniform, probability, _}) do
     [MeowNx.Ops.mutation_replace_uniform(probability, -5.12, 5.12)]
   end
-  def mutation_settings({:bit_flip, probability, _}) do
+  defp mutation_settings({:bit_flip, probability, _}) do
     [MeowNx.Ops.mutation_bit_flip(probability)]
   end
 
-  def crossover_settings({:uniform, probability}) do
+  defp crossover_settings({:uniform, probability}) do
     [MeowNx.Ops.crossover_uniform(probability)]
   end
-  def crossover_settings({:blend_alpha, alpha}) do
+  defp crossover_settings({:blend_alpha, alpha}) do
     [MeowNx.Ops.crossover_blend_alpha(alpha)]
   end
-  def crossover_settings({:multi_point, points}) do
+  defp crossover_settings({:multi_point, points}) do
     [MeowNx.Ops.crossover_multi_point(points)]
   end
 
-  def selection_settings({:natural, n_selected}) do
+  defp selection_settings({:natural, n_selected}) do
     MeowNx.Ops.selection_natural(n_selected)
   end
-  def selection_settings({:tournament, n_selected}) do
+  defp selection_settings({:tournament, n_selected}) do
     MeowNx.Ops.selection_tournament(n_selected)
   end
-  def selection_settings({:roulette, n_selected}) do
+  defp selection_settings({:roulette, n_selected}) do
     MeowNx.Ops.selection_roulette(n_selected)
   end
-  def selection_settings({:sus, n_selected}) do
+  defp selection_settings({:sus, n_selected}) do
     MeowNx.Ops.selection_stochastic_universal_sampling(n_selected)
   end
 
-  def imigration_selection_settings(:natural, migration_interval) do
+  defp imigration_selection_settings(:natural, migration_interval) do
     Meow.Ops.immigrate(&MeowNx.Ops.selection_natural(&1), interval: migration_interval)
   end
-  def imigration_selection_settings(:tournament, migration_interval) do
+  defp imigration_selection_settings(:tournament, migration_interval) do
     Meow.Ops.immigrate(&MeowNx.Ops.selection_tournament(&1), interval: migration_interval)
   end
-  def imigration_selection_settings(:roulette, migration_interval) do
+  defp imigration_selection_settings(:roulette, migration_interval) do
     Meow.Ops.immigrate(&MeowNx.Ops.selection_roulette(&1), interval: migration_interval)
   end
-  def imigration_selection_settings(:sus, migration_interval) do
+  defp imigration_selection_settings(:sus, migration_interval) do
     Meow.Ops.immigrate(&MeowNx.Ops.selection_stochastic_universal_sampling(&1), interval: migration_interval)
   end
 end
