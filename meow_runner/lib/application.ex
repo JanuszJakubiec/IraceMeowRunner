@@ -11,7 +11,7 @@ defmodule MeowRunner.Application do
         get_function(function)
       )
       |> Meow.add_pipeline(
-        init_function(function_type(function), half_population_size, 10),
+        init_function(function_type(function), half_population_size*populations_n, 10),
         Meow.pipeline(
           genomes_modification_settings(genomes_modification_params) ++
           emigration_settings(emigration_params, populations_n) ++
@@ -39,20 +39,26 @@ defmodule MeowRunner.Application do
                end)
   end
 
-  defp get_function(Backpack), do: &Backpack.evaluate_backpack/1
-  defp get_function(Rastrigin), do: &Rastrigin.evaluate_rastrigin/1
-  defp get_function(SumSquares), do: &SumSquares.evaluate_sum_squares/1
+  defp get_function(:backpack), do: &Backpack.evaluate/1
+  defp get_function(:rastrigin), do: &Rastrigin.evaluate/1
+  defp get_function(:sumSquares), do: &SumSquares.evaluate/1
+  defp get_function(:ackley), do: &Ackley.evaluate/1
+  defp get_function(:griewank), do: &Griewank.evaluate/1
+  defp get_function(:myFunction), do: &MyFunction.evaluate/1
 
-  defp function_type(Backpack), do: :discrete
-  defp function_type(Rastrigin), do: :continous
-  defp function_type(SumSquares), do: :continous
+  defp function_type(:backpack), do: :discrete
+  defp function_type(:rastrigin), do: :continous
+  defp function_type(:sumSquares), do: :continous
+  defp function_type(:ackley), do: :continous
+  defp function_type(:griewank), do: :continous
+  defp function_type(:myFunction), do: :continous
 
   defp init_function(:discrete, half_population_size, size) do
     MeowNx.Ops.init_binary_random_uniform(half_population_size*2, size)
   end
 
   defp init_function(:continous, half_population_size, size) do
-    MeowNx.Ops.init_real_random_uniform(half_population_size*2, size, -5.12, 5.12)
+    MeowNx.Ops.init_real_random_uniform(half_population_size*2, size, -30.12, 30.12)
   end
 
   defp genomes_modification_settings({false, mutation_selection, crossover_params, mutation_params}) do

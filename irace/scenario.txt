@@ -11,7 +11,7 @@
 
 ## File that contains the description of the parameters of the target
 ## algorithm.
-parameterFile = "./parameters_discrete.txt"
+parameterFile = "./parameters_continous.txt"
 
 ## File that contains a list of logical expressions that cannot be TRUE for
 ## any evaluated configuration. If empty or NULL, do not use forbidden
@@ -80,7 +80,7 @@ targetRunner = "./target-runner"
 ## the option targetRunner and by the arguments usually passed when calling
 ## targetRunner, respectively. Example: "-m {targetRunner --args
 ## {targetRunnerArgs}"}.
-# targetRunnerLauncherArgs = "{targetRunner} {targetRunnerArgs}"
+## targetRunnerLauncherArgs = "{targetRunner} {targetRunnerArgs}"
 
 ## Number of times to retry a call to targetRunner if the call failed.
 # targetRunnerRetries = 0

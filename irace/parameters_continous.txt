@@ -26,6 +26,7 @@
 ##    condition is satisfied, FALSE otherwise.
 
 # 1:            2:                   3: 4:     5:
+problem "--problem=" c (myFunction)
 half_population_size "--half_population_size=" i (50, 51)
 number_of_evaluations "--number_of_evaluations=" c (1000)
 populations_number "--populations=" i (1, 10)
@@ -44,5 +45,5 @@ crossover_alpha "--alpha=" r (0, 1) | crossover_params == "blend_alpha"
 mutation "--mutation=" c (shift_gaussian,replace_uniform)
 mutation_probability "--mutation_probability=" r (0, 0.01)
 mutation_sigma "--mutation_sigma=" r (0, 10) | mutation == "shift_gaussian"
-fittest_survival "--fittest_survival=" i (1, half_population_size-1) | preserve_best_genes == "true"
+fittest_survival "--fittest_survival=" i (1, 40) | preserve_best_genes == "true"
 fittest_genomes_selection "--fittest_genomes_selection=" c (tournament, natural,roulette,sus) | preserve_best_genes == "true"

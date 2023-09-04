@@ -5,9 +5,10 @@ defmodule MyScript do
     {number_of_evaluations, _} = Integer.parse(args_map["number_of_evaluations"])
     {populations_n, _} = Integer.parse(args_map["populations"])
     {half_population_size, _} = Integer.parse(args_map["half_population_size"])
+    problem = parse_atom(args_map["problem"])
     genomes_modification_params = get_genomes_modification_params(args_map)
     emigration_params = get_emigration_settings(args_map, populations_n)
-    res = :rpc.call(:"meow_runner@127.0.0.1", MeowRunner.Application, :run_rastrigin, [Backpack, half_population_size, number_of_evaluations, populations_n, genomes_modification_params, emigration_params])
+    res = :rpc.call(:"meow_runner@127.0.0.1", MeowRunner.Application, :run_meow, [problem, half_population_size, number_of_evaluations, populations_n, genomes_modification_params, emigration_params])
     IO.puts(res * -1)
   end
 
