@@ -1,49 +1,109 @@
 defmodule Clique do
   import Nx.Defn
 
-  @size 10
+  @genome_size 10
 
-  defn evaluate(_genomes) do
-    edges = Nx.tensor([[1, 3], [1, 2], [2, 3], [1, 4], [2, 4], [4, 5], [3, 5], [5, 6], [1, 5], [2, 5], [0,0]])
-    v = 7
-    genomes = Nx.tensor([[1,1,1,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1,1], [1,0,1,0,0,0,0,0,0,0]])
+  defn evaluate(genomes) do
+    vertices_n = 7
+    genome_size = @genome_size
 
-    {length, _} = Nx.shape(genomes)
+    edges =
+      Nx.tensor([
+        [1, 2],
+        [1, 3],
+        [1, 6],
+        [2, 3],
+        [2, 4],
+        [2, 5],
+        [3, 4],
+        [3, 5],
+        [4, 5],
+        [5, 6],
+        [0, 0]
+      ])
 
-    matrix = Nx.broadcast(0, {v, v})
-    ones = Nx.broadcast(1, {v, v})
+    # genomes =
+    #  Nx.tensor([
+    #    [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    #    [0, 0, 0, 1, 1, 1, 1, 1, 1, 0]
+    #  ])
 
-    xyz = Nx.iota({7,2}, axis: 1)
-          |> Nx.transpose(axes: [1, 0])
+    {genomes_n, _} = Nx.shape(genomes)
 
+    edge_indices =
+      Nx.select(genomes, Nx.iota({genome_size}), Nx.tensor(@genome_size))
 
-    indices = Nx.select(genomes, Nx.iota({@size}), Nx.tensor(10))
+    # Selecting edges from edges set, based on genomes
+    taken_edges = Nx.take(edges, edge_indices)
+    taken_edges_reversed = Nx.reverse(taken_edges, axes: [2])
 
-    taken_edges = Nx.take(edges, indices)
-    indices = Nx.reshape(taken_edges, {3, 2*10})
-    eye = Nx.eye(v)
-    markings = Nx.take(eye, indices)
-    trans = Nx.transpose(markings, axes: [0, 2, 1])
-    vertices = Nx.sum(trans, axes: [2])
-    |> Nx.add(Nx.iota({v}) < 1)
-    indexes_not_present = Nx.select(vertices > 0, 0, Nx.iota({v}))
-    |> Nx.add(Nx.iota({v}) < 1)
+    # Flattening edges list to single vertices
+    vertices_from_edges = Nx.reshape(taken_edges, {genomes_n, 2 * genome_size})
 
-    whatIWant = Nx.take(xyz, indexes_not_present > 0)
-    whatIWant2 = Nx.transpose(whatIWant, axes: [0,2,1])
+    # Creating the marking tab, containing which vertices are present in each genome
+    vertices =
+      Nx.take(Nx.eye(vertices_n), vertices_from_edges)
+      |> Nx.transpose(axes: [0, 2, 1])
+      |> Nx.sum(axes: [2])
+      |> Nx.add(Nx.iota({vertices_n}) < 1)
 
-    final = Nx.add(whatIWant, whatIWant2) > 0
-    first = Nx.iota({length, @size, 1}, axis: 0)
-    taken_edges2 = Nx.reverse(taken_edges, axes: [2])
-    taken_edges2 = Nx.concatenate([first, taken_edges2], axis: 2)
-    |> Nx.flatten(axes: [0,1])
-    taken_edges = Nx.concatenate([first, taken_edges], axis: 2)
-    |> Nx.flatten(axes: [0,1])
-    result = Nx.indexed_add(final, taken_edges, Nx.broadcast(1, {@size*length}))
-    |> Nx.indexed_add(taken_edges2, Nx.broadcast(1, {@size*length}))
-    |> Nx.add(Nx.eye(7)) > 0
-    res = Nx.reduce(result, 1, [axes: [1,2]], fn x,y -> Nx.logical_and(x,y) end)
+    ## For each genome, calculates the possible clique size(number of unique vertices used in genome)
     clique_possible_size = Nx.sum(vertices > 0, axes: [1]) |> Nx.add(-1)
-    Nx.select(res, clique_possible_size, 0)
+
+    ### Creating the list with vertices that are not present in a genome. If the vertice i is present,
+    # the value on position i is 0. When it is present the value on position i is i.
+    vertices_not_present =
+      Nx.select(vertices > 0, 0, Nx.iota({vertices_n}))
+      |> Nx.add(Nx.iota({vertices_n}) < 1)
+      |> Nx.greater(0)
+      |> Nx.select(
+        Nx.broadcast(1, {genomes_n, vertices_n}),
+        Nx.broadcast(0, {genomes_n, vertices_n})
+      )
+
+    # Creating connections matrix, adding a row of ones, when vertice is not present
+    connections_matrix = Nx.take(Nx.iota({2, vertices_n}, axis: 0), vertices_not_present)
+    # Creating transposed connections matrix, adding a row of ones, when vertice is not present
+    connections_matrix_tr = Nx.transpose(connections_matrix, axes: [0, 2, 1])
+
+    # For genome containing vertices: [0, 1, 1] it will be equal to:
+    # Summing connections matrix and transposed connections matrix. The remaining matrix will
+    # contain 0 value, where the edge is needed for the genome to be a clique
+    # 1 1 1 1
+    # 1 1 1 1
+    # 1 1 0 0
+    # 1 1 0 0
+    connections_matrix = Nx.add(connections_matrix, connections_matrix_tr) > 0
+
+    genome_index =
+      Nx.iota({genomes_n, genome_size * 2, 1}, axis: 0)
+      |> Nx.flatten(axes: [0, 1])
+
+    taken_edges =
+      Nx.concatenate([taken_edges, taken_edges_reversed], axis: 1)
+      |> Nx.flatten(axes: [0, 1])
+
+    # Tensor, containing the 3-element lists, wiht [genome_id, edge_v_1, edge_v_2] it will be used,
+    # to insert 1 into connections_matrix
+    taken_edges =
+      Nx.concatenate([genome_index, taken_edges], axis: 1)
+
+    # Udating connections_matrix accordingly to taken_edges. Then if all fields in connections_matrix
+    # are 1, the clique_possible_size is returned, 0 in other case
+    Nx.indexed_add(
+      connections_matrix,
+      taken_edges,
+      Nx.broadcast(1, {genome_size * 2 * genomes_n})
+    )
+    |> Nx.add(Nx.eye(vertices_n))
+    |> Nx.greater(0)
+    |> Nx.reduce(1, [axes: [1, 2]], fn x, y -> Nx.logical_and(x, y) end)
+    |> Nx.select(clique_possible_size, 0)
+  end
+
+  defn return_value(genomes, val) do
+    Nx.add(val, 1)
+    {genomes_n, _} = Nx.shape(genomes)
+    Nx.broadcast(1, {genomes_n})
   end
 end

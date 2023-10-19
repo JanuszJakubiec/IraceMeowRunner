@@ -11,7 +11,7 @@
 
 ## File that contains the description of the parameters of the target
 ## algorithm.
-parameterFile = "./parameters_continous.txt"
+parameterFile = "./parameters_discrete.txt"
 
 ## File that contains a list of logical expressions that cannot be TRUE for
 ## any evaluated configuration. If empty or NULL, do not use forbidden

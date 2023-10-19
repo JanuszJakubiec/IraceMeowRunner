@@ -6,16 +6,17 @@ defmodule Backpack do
   @values Nx.tensor([5, 100, 50, 10, 10000, 10, 5, 50, 50, 10], type: {:u, 64})
 
   defn evaluate(genomes) do
-    #genomes = Nx.tensor([[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0]], type: {:u, 64})
+    # genomes = Nx.tensor([[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0],[0, 0, 0, 0, 0, 0, 1, 1, 0, 0]], type: {:u, 64})
 
-    weights_sum = genomes
-    |> Nx.select(@weights, Nx.tensor(0))
-    |> Nx.sum(axes: [1])
+    weights_sum =
+      genomes
+      |> Nx.select(@weights, Nx.tensor(0))
+      |> Nx.sum(axes: [1])
 
-    value_sum = genomes
-    |> Nx.select(@values, Nx.tensor(0))
-    |> Nx.sum(axes: [1])
-
+    value_sum =
+      genomes
+      |> Nx.select(@values, Nx.tensor(0))
+      |> Nx.sum(axes: [1])
 
     Nx.select(weights_sum <= @max_weight, value_sum, -weights_sum)
   end
