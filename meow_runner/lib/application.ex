@@ -16,7 +16,7 @@ defmodule MeowRunner.Application do
     algorithm =
       Meow.objective(get_function(function))
       |> Meow.add_pipeline(
-        init_function(function_type(function), half_population_size * populations_n, 10),
+        init_function(function_type(function), half_population_size * populations_n, 30),
         Meow.pipeline(
           genomes_modification_settings(genomes_modification_params) ++
             emigration_settings(emigration_params, populations_n) ++
@@ -55,7 +55,7 @@ defmodule MeowRunner.Application do
   defp get_function(:ackley), do: &Ackley.evaluate/1
   defp get_function(:griewank), do: &Griewank.evaluate/1
   defp get_function(:myFunction), do: &MyFunction.evaluate/1
-  defp get_function(:clique), do: &Clique.evaluate/1
+  defp get_function(:max_cut), do: &MaxCut.evaluate/1
 
   defp function_type(:backpack), do: :discrete
   defp function_type(:rastrigin), do: :continous
@@ -63,7 +63,7 @@ defmodule MeowRunner.Application do
   defp function_type(:ackley), do: :continous
   defp function_type(:griewank), do: :continous
   defp function_type(:myFunction), do: :continous
-  defp function_type(:clique), do: :discrete
+  defp function_type(:max_cut), do: :discrete
 
   defp init_function(:discrete, half_population_size, size) do
     MeowNx.Ops.init_binary_random_uniform(half_population_size * 2, size)
