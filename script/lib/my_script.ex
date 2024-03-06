@@ -8,18 +8,32 @@ defmodule MyScript do
     problem = parse_atom(args_map["problem"])
     genomes_modification_params = get_genomes_modification_params(args_map)
     emigration_params = get_emigration_settings(args_map, populations_n)
-    res = :rpc.call(:"meow_runner@127.0.0.1", MeowRunner.Application, :run_meow, [problem, half_population_size, number_of_evaluations, populations_n, genomes_modification_params, emigration_params])
+
+    res =
+      :rpc.call(:"meow_runner@127.0.0.1", MeowRunner.Application, :run_meow, [
+        problem,
+        half_population_size,
+        number_of_evaluations,
+        populations_n,
+        genomes_modification_params,
+        emigration_params
+      ])
+
     IO.puts(res * -1)
   end
 
   def get_emigration_settings(%{"migrate_animals" => "false"}, _) do
     {false, :null, :null, :null, :null, :null}
   end
+
   def get_emigration_settings(_, 1) do
     {false, :null, :null, :null, :null, :null}
   end
+
   def get_emigration_settings(args_map, _) do
-    {true, parse_emigration_interval(args_map), parse_topology(args_map), parse_emigration_size(args_map), parse_emigration_selection(args_map), parse_imigration_selection(args_map)}
+    {true, parse_emigration_interval(args_map), parse_topology(args_map),
+     parse_emigration_size(args_map), parse_emigration_selection(args_map),
+     parse_imigration_selection(args_map)}
   end
 
   def parse_emigration_interval(%{"interval" => interval}) do
@@ -43,17 +57,13 @@ defmodule MyScript do
   end
 
   def get_genomes_modification_params(%{"preserve_best_genes" => "true"} = args_map) do
-    {true,
-     get_fittest_survival_number(args_map),
-     get_fittest_selection(args_map),
-     get_mutation_selection(args_map),
-     get_crossover_params(args_map),
+    {true, get_fittest_survival_number(args_map), get_fittest_selection(args_map),
+     get_mutation_selection(args_map), get_crossover_params(args_map),
      get_mutation_params(args_map)}
   end
+
   def get_genomes_modification_params(%{"preserve_best_genes" => "false"} = args_map) do
-    {false,
-     get_mutation_selection(args_map),
-     get_crossover_params(args_map),
+    {false, get_mutation_selection(args_map), get_crossover_params(args_map),
      get_mutation_params(args_map)}
   end
 
@@ -72,19 +82,24 @@ defmodule MyScript do
   def get_crossover_params(%{"crossover" => "uniform"} = args_map) do
     {:uniform, parse_float(args_map["crossover_probability"])}
   end
+
   def get_crossover_params(%{"crossover" => "blend_alpha"} = args_map) do
     {:blend_alpha, parse_float(args_map["alpha"])}
   end
+
   def get_crossover_params(%{"crossover" => "multi_point"} = args_map) do
     {:uniform, parse_integer(args_map["points"])}
   end
 
   def get_mutation_params(%{"mutation" => "shift_gaussian"} = args_map) do
-    {:shift_gaussian, parse_float(args_map["mutation_probability"]), parse_float(args_map["mutation_sigma"])}
+    {:shift_gaussian, parse_float(args_map["mutation_probability"]),
+     parse_float(args_map["mutation_sigma"])}
   end
+
   def get_mutation_params(%{"mutation" => "replace_uniform"} = args_map) do
     {:replace_uniform, parse_float(args_map["mutation_probability"]), :null}
   end
+
   def get_mutation_params(%{"mutation" => "bit_flip"} = args_map) do
     {:bit_flip, parse_float(args_map["mutation_probability"]), :null}
   end
@@ -112,12 +127,15 @@ defmodule MyScript do
     case String.starts_with?(arg, "--") do
       true ->
         {_, parsed_arg} = String.split_at(arg, 2)
+
         case String.split(parsed_arg, "=", trim: true) do
           [key, value] ->
             Map.put(acc, key, value)
+
           _ ->
             acc
         end
+
       false ->
         acc
     end
