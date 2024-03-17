@@ -6,16 +6,17 @@ defmodule TravelingSalesman do
       Nx.tensor([
         [2, 3, 7, 1, 6, 0, 5, 4],
         [3, 1, 4, 0, 5, 7, 2, 6],
-        [0, 1, 2, 3, 5, 4, 6, 7],
-        [0, 1, 2, 3, 7, 6, 5, 4]
+        [3, 4, 0, 2, 7, 1, 6, 5],
+        [4, 2, 5, 1, 6, 0, 3, 7],
+        [0, 1, 2, 3, 4, 5, 6, 7],
+        [7, 6, 5, 4, 3, 2, 1, 0]
       ])
-      |> Nx.Defn.Kernel.print_value()
 
-    {n, length} = Nx.shape(parents)
+    {genomes_n, length} = Nx.shape(parents)
     points = 2
-    half_n = div(n, 2)
+    half_n = div(genomes_n, 2)
 
-    swapped_parents = swap_adjacent_rows(parents)
+    swapped_parents_data = swap_adjacent_rows(parents)
 
     split_idx =
       random_idx_without_replacement(
@@ -30,27 +31,98 @@ defmodule TravelingSalesman do
       |> Nx.sum(axes: [1])
       |> Nx.remainder(2)
       |> duplicate_rows()
-      |> Nx.Defn.Kernel.print_value()
+      |> Nx.Defn.Kernel.print_value(limit: :infinity)
 
     swapped_parents =
-      Nx.select(swap?, swapped_parents, length)
+      Nx.select(swap?, swapped_parents_data, length)
+      |> Nx.Defn.Kernel.print_value(limit: :infinity)
 
-    length_plus_one = transform(length, &(&1 + 1))
+    idx =
+      Nx.flatten(split_idx, axes: [1, 2])
+      |> Nx.transpose(axes: [1, 0])
 
-    swapped_parents_and_added_parents =
-      Nx.take(Nx.eye(length_plus_one), swapped_parents)
+    greater_idx = Nx.select(idx[0] > idx[1], idx[0], idx[1])
+    lesser_idx = Nx.select(idx[0] < idx[1], idx[0], idx[1])
+    crossover_length = greater_idx - lesser_idx
+
+    greater_idx =
+      greater_idx
+      |> Nx.reshape({half_n, 1})
+      |> duplicate_rows()
+      |> Nx.broadcast({genomes_n, length})
+      |> Nx.reshape({genomes_n, length, 1})
+
+    abc =
+      swapped_parents
+      |> Nx.reshape({genomes_n, length, 1})
+      |> Nx.broadcast({genomes_n, length, length})
+
+    xyz =
+      parents
+      |> Nx.reshape({genomes_n, length, 1})
+      |> Nx.broadcast({genomes_n, length, length})
+      |> Nx.transpose(axes: [0, 2, 1])
+
+    indices_element =
+      Nx.iota({genomes_n, length, 1}, axis: 1)
+      |> Nx.add(greater_idx)
+      |> Nx.remainder(length)
+      |> Nx.transpose(axes: [0, 2, 1])
+      |> Nx.Defn.Kernel.print_value(limit: :infinity)
+      |> Nx.transpose(axes: [0, 2, 1])
+
+    indices1 =
+      Nx.concatenate([Nx.iota({genomes_n, length, 1}, axis: 0), indices_element], axis: 2)
+
+    move =
+      Nx.equal(abc, xyz)
       |> Nx.transpose(axes: [0, 2, 1])
       |> Nx.sum(axes: [2])
+      |> Nx.gather(indices1)
+      |> Nx.Defn.Kernel.print_value(limit: :infinity)
+      |> Nx.select(
+        Nx.broadcast(length, {genomes_n, length}),
+        Nx.iota({genomes_n, length}, axis: 1)
+      )
+      |> Nx.sort(axis: 1)
+      |> Nx.reshape({genomes_n, length, 1})
+      |> Nx.add(greater_idx)
+      |> Nx.reshape({genomes_n, length})
+      |> Nx.remainder(length)
+      |> Nx.Defn.Kernel.print_value(limit: :infinity)
+      |> Nx.reshape({genomes_n, length, 1})
 
-    # |> Nx.add(Nx.iota({length_plus_one}) == length)
-    # |> Nx.take_along_axis(parents, axis: 1)
-    # |> Nx.add(swap?)
-    # |> Nx.select(swapped_parents, parents)
+    lesser_idx =
+      lesser_idx
+      |> Nx.reshape({half_n, 1})
+      |> duplicate_rows()
+      |> Nx.broadcast({genomes_n, length})
+      |> Nx.reshape({genomes_n, length, 1})
 
-    swapped_parents_and_added_parents
+    pred =
+      indices_element >= lesser_idx and
+        indices_element <
+          greater_idx
+          |> Nx.broadcast({genomes_n, length, 2})
+
+    add =
+      Nx.iota({genomes_n, length, 1}, axis: 0)
+      |> Nx.remainder(2)
+      |> Nx.select(-1, 1)
+
+    indices2 =
+      Nx.concatenate([Nx.iota({genomes_n, length, 1}, axis: 0) + add, indices_element], axis: 2)
+
+    indices3 =
+      Nx.concatenate([Nx.iota({genomes_n, length, 1}, axis: 0), move], axis: 2)
+
+    indices = Nx.select(pred, indices2, indices3)
+
+    Nx.gather(parents, indices)
+    |> Nx.Defn.Kernel.print_value(limit: :infinity)
   end
 
-  defn mutation(genomes) do
+  defn mutation(_genomes) do
   end
 
   defn generate_init(genomes_n, genome_length) do

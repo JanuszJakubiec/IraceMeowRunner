@@ -255,31 +255,34 @@ defmodule NQueen do
     genomes = Nx.reshape(genomes, {genomes_n, @size, @size})
 
     result =
-      Nx.broadcast(Nx.tensor(0.0, type: {:f, 64}), {genomes_n})
+      Nx.broadcast(Nx.tensor(0.0, type: {:f, 32}), {genomes_n})
       |> Nx.add(Nx.sum(genomes, axes: [1, 2]))
 
     result_to_subtract =
-      Nx.broadcast(Nx.tensor(0.0, type: {:f, 64}), {genomes_n})
+      Nx.broadcast(Nx.tensor(0.0, type: {:f, 32}), {genomes_n})
       |> Nx.add(count_rows(genomes))
       |> Nx.add(count_columns(genomes))
       |> Nx.add(count_diagonal(genomes))
       |> Nx.add(count_diagonal(Nx.reverse(genomes, axes: [2])))
 
     result - result_to_subtract
-    # + Nx.random_uniform({genomes_n}, -1, 0, type: {:f, 64})
   end
 
   defn count_columns(genomes) do
+    {genomes_n, _, _} = Nx.shape(genomes)
+
     Nx.sum(genomes, axes: [1])
     |> Nx.subtract(1)
-    |> Nx.max(0)
+    |> Nx.max(Nx.broadcast(0, {genomes_n, @size}))
     |> Nx.sum(axes: [1])
   end
 
   defn count_rows(genomes) do
+    {genomes_n, _, _} = Nx.shape(genomes)
+
     Nx.sum(genomes, axes: [2])
     |> Nx.subtract(1)
-    |> Nx.max(0)
+    |> Nx.max(Nx.broadcast(0, {genomes_n, @size}))
     |> Nx.sum(axes: [1])
   end
 
@@ -317,7 +320,7 @@ defmodule NQueen do
     Nx.gather(genomes_with_added_element, selected_indices)
     |> Nx.sum(axes: [2])
     |> Nx.subtract(1)
-    |> Nx.max(0)
+    |> Nx.max(Nx.broadcast(0, {genomes_n, 2 * @size - 1}))
     |> Nx.sum(axes: [1])
   end
 
