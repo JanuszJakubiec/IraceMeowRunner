@@ -16,9 +16,9 @@ defmodule MeowRunner.Application do
     algorithm =
       Meow.objective(get_function(function))
       |> Meow.add_pipeline(
-        init_function(function_type(function), half_population_size * populations_n, 100),
+        init_function(function_type(function), half_population_size, 8),
         Meow.pipeline(
-          genomes_modification_settings(genomes_modification_params) ++
+          genomes_modification_settings(half_population_size * 2, genomes_modification_params) ++
             emigration_settings(emigration_params, populations_n) ++
             [
               MeowNx.Ops.log_best_individual(),
@@ -58,6 +58,7 @@ defmodule MeowRunner.Application do
   defp get_function(:myFunction), do: &MyFunction.evaluate/1
   defp get_function(:max_cut), do: &MaxCut.evaluate/1
   defp get_function(:n_queen), do: &NQueen.evaluate/1
+  defp get_function(:traveling_salesman), do: &TravelingSalesman.evaluate/1
 
   defp function_type(:backpack), do: :discrete
   defp function_type(:rastrigin), do: :continous
@@ -67,6 +68,7 @@ defmodule MeowRunner.Application do
   defp function_type(:myFunction), do: :continous
   defp function_type(:max_cut), do: :discrete
   defp function_type(:n_queen), do: :discrete
+  defp function_type(:traveling_salesman), do: :traveling_salesman
 
   defp init_function(:discrete, half_population_size, size) do
     MeowNx.Ops.init_binary_random_uniform(half_population_size * 2, size)
@@ -76,7 +78,25 @@ defmodule MeowRunner.Application do
     MeowNx.Ops.init_real_random_uniform(half_population_size * 2, size, -30.12, 30.12)
   end
 
+  defp init_function(:traveling_salesman, half_population_size, size) do
+    opts = [genomes_n: half_population_size * 2, length: size]
+
+    %Meow.Op{
+      name: "[Nx] Initialization: initialization for traveling salesman",
+      requires_fitness: false,
+      invalidates_fitness: true,
+      in_representations: :any,
+      out_representation: MeowNx.permutation_representation(),
+      impl: fn population, _ctx ->
+        Meow.Population.map_genomes(population, fn _genomes ->
+          TravelingSalesman.init_function(opts)
+        end)
+      end
+    }
+  end
+
   defp genomes_modification_settings(
+         _,
          {false, mutation_selection, crossover_params, mutation_params}
        ) do
     [selection_settings({mutation_selection, 1.0})] ++
@@ -85,6 +105,7 @@ defmodule MeowRunner.Application do
   end
 
   defp genomes_modification_settings(
+         genomes_n,
          {true, fittest_survival, fittest_selection, mutation_selection, crossover_params,
           mutation_params}
        ) do
@@ -94,7 +115,7 @@ defmodule MeowRunner.Application do
       Meow.Ops.split_join([
         Meow.pipeline([selection_settings({fittest_selection, fittest_survival})]),
         Meow.pipeline(
-          [selection_settings({mutation_selection, 100 - fittest_survival})] ++
+          [selection_settings({mutation_selection, genomes_n - fittest_survival})] ++
             crossover_settings(crossover_params) ++
             mutation_settings(mutation_params)
         )
@@ -146,6 +167,24 @@ defmodule MeowRunner.Application do
     &Meow.Topology.fully_connected/2
   end
 
+  defp mutation_settings({:traveling_salesman, probability, _}) do
+    opts = [probability: probability]
+
+    [
+      %Meow.Op{
+        name: "[Nx] Mutation: mutation for traveling salesman",
+        requires_fitness: false,
+        invalidates_fitness: true,
+        in_representations: [MeowNx.permutation_representation()],
+        impl: fn population, _ctx ->
+          Meow.Population.map_genomes(population, fn genomes ->
+            TravelingSalesman.mutation(genomes, opts)
+          end)
+        end
+      }
+    ]
+  end
+
   defp mutation_settings({:shift_gaussian, probability, sigma}) do
     [MeowNx.Ops.mutation_shift_gaussian(probability, sigma: sigma)]
   end
@@ -156,6 +195,22 @@ defmodule MeowRunner.Application do
 
   defp mutation_settings({:bit_flip, probability, _}) do
     [MeowNx.Ops.mutation_bit_flip(probability)]
+  end
+
+  defp crossover_settings({:traveling_salesman, _}) do
+    [
+      %Meow.Op{
+        name: "[Nx] Crossover: crossover for traveling salesman",
+        requires_fitness: false,
+        invalidates_fitness: true,
+        in_representations: [MeowNx.permutation_representation()],
+        impl: fn population, _ctx ->
+          Meow.Population.map_genomes(population, fn genomes ->
+            TravelingSalesman.crossover(genomes)
+          end)
+        end
+      }
+    ]
   end
 
   defp crossover_settings({:uniform, probability}) do

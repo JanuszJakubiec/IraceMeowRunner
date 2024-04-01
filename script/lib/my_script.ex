@@ -87,6 +87,10 @@ defmodule MyScript do
     {:blend_alpha, parse_float(args_map["alpha"])}
   end
 
+  def get_crossover_params(%{"crossover" => "traveling_salesman"}) do
+    {:traveling_salesman, :null}
+  end
+
   def get_crossover_params(%{"crossover" => "multi_point"} = args_map) do
     {:uniform, parse_integer(args_map["points"])}
   end
@@ -98,6 +102,10 @@ defmodule MyScript do
 
   def get_mutation_params(%{"mutation" => "replace_uniform"} = args_map) do
     {:replace_uniform, parse_float(args_map["mutation_probability"]), :null}
+  end
+
+  def get_mutation_params(%{"mutation" => "traveling_salesman"} = args_map) do
+    {:traveling_salesman, parse_float(args_map["mutation_probability"]), :null}
   end
 
   def get_mutation_params(%{"mutation" => "bit_flip"} = args_map) do
