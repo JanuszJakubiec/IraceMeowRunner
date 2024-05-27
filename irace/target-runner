@@ -34,7 +34,7 @@ CONFIG_PARAMS=$*
 # BINDIR=$(dirname "$(readlink -f "$(type -P $0 || echo $0)")")
 
 # EDIT THIS: Path to your executable
-EXE=../script/my_script
+EXE="../script/my_script"
 # EDIT THIS: Specify how parameters are given to your executable
 EXE_PARAMS="--time 5 -i $INSTANCE --seed ${SEED} ${CONFIG_PARAMS}"
 
@@ -69,9 +69,11 @@ $EXE ${EXE_PARAMS} 1> ${STDOUT} 2> ${STDERR}
 if [ ! -s "${STDOUT}" ]; then
     error "${STDOUT}: No such file or directory"
 fi
+#echo HELP
 # This is an example of reading a number from the output.  It assumes that the
 # objective value is the first number in the first column of the last line of
 # the output.
+#echo ${STDOUT}
 COST=$(tail -n 1 ${STDOUT} | grep -e '^[[:space:]]*[+-]\?[0-9]' | cut -f1)
 echo "$COST"
 # Comment the following line if you wish to preserve temporary files

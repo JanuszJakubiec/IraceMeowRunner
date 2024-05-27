@@ -1,8 +1,0 @@
-** (ArgumentError) errors were found at the given arguments:
-
-  * 1st argument: not a binary
-
-    :erlang.binary_to_atom(nil, :utf8)
-    (my_script 0.1.0) lib/my_script.ex:93: MyScript.parse_atom/1
-    (my_script 0.1.0) lib/my_script.ex:8: MyScript.main/1
-    (elixir 1.14.5) lib/kernel/cli.ex:131: anonymous fn/3 in Kernel.CLI.exec_fun/2

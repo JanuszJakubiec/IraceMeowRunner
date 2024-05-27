@@ -1,0 +1,5 @@
+warning: the VM is running with native name encoding of latin1 which may cause Elixir to malfunction as it expects utf8. Please ensure your locale is set to UTF-8 (which can be verified by running "locale" in your shell)
+** (ArithmeticError) bad argument in arithmetic expression: {:badrpc, :nodedown} * -1
+    :erlang.*({:badrpc, :nodedown}, -1)
+    (my_script 0.1.0) lib/my_script.ex:12: MyScript.main/1
+    (elixir 1.14.5) lib/kernel/cli.ex:131: anonymous fn/3 in Kernel.CLI.exec_fun/2

@@ -46,12 +46,21 @@ defmodule MeowRunner.Application do
   defp get_function(:griewank), do: &Griewank.evaluate/1
   defp get_function(:myFunction), do: &MyFunction.evaluate/1
 
+  defp get_function(:alpine), do: &Alpine.evaluate/1
+  defp get_function(:frequency), do: &Frequency.evaluate/1
+  defp get_function(:xinshe), do: &XinShe.evaluate/1
+
+
   defp function_type(:backpack), do: :discrete
   defp function_type(:rastrigin), do: :continous
   defp function_type(:sumSquares), do: :continous
   defp function_type(:ackley), do: :continous
   defp function_type(:griewank), do: :continous
   defp function_type(:myFunction), do: :continous
+
+  defp function_type(:alpine), do: :continous
+  defp function_type(:frequency), do: :continous
+  defp function_type(:xinshe), do: :continous
 
   defp init_function(:discrete, half_population_size, size) do
     MeowNx.Ops.init_binary_random_uniform(half_population_size*2, size)

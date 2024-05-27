@@ -7,7 +7,7 @@
 ## value on the command line).
 
 ## Directory where the programs will be run.
-# execDir = "./"
+execDir = "./"
 
 ## File that contains the description of the parameters of the target
 ## algorithm.
