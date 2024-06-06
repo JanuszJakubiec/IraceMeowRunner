@@ -1,6 +1,9 @@
 defmodule MeowRunner.Application do
-  def start() do
+  use Application
+
+  def start(_type, _args) do
     IO.puts("Starting the app\n")
+
     Nx.Defn.global_default_options(compiler: EXLA)
     Node.start(:"meow_runner@127.0.0.1")
   end
@@ -16,7 +19,7 @@ defmodule MeowRunner.Application do
     algorithm =
       Meow.objective(get_function(function))
       |> Meow.add_pipeline(
-        init_function(function_type(function), half_population_size, 8),
+        init_function(function_type(function), half_population_size, 16),
         Meow.pipeline(
           genomes_modification_settings(half_population_size * 2, genomes_modification_params) ++
             emigration_settings(emigration_params, populations_n) ++
