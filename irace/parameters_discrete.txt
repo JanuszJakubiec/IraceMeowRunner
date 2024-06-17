@@ -34,8 +34,8 @@ migrate_animals            "--migrate_animals="            c  (true, false)     
 emigration_interval        "--interval="                   i  (1, 10)                                   | migrate_animals == "true"
 emigration_topology        "--topology="                   c  (ring,mesh2d,mesh3d,fully_connected,star) | migrate_animals == "true"
 emigration_size            "--emigration_size="            i  (1, 8)                                    | migrate_animals == "true"
-emigration_selection       "--emigration_selection="       c  (tournament, natural,roulette,sus)        | migrate_animals == "true"
-imigration_selection       "--imigration_selection="       c  (tournament, natural,roulette,sus)        | migrate_animals == "true"
+emigration_selection       "--emigration_selection="       c  (tournament, natural, sus)                | migrate_animals == "true"
+imigration_selection       "--imigration_selection="       c  (tournament, natural, sus)                | migrate_animals == "true"
 preserve_best_genes        "--preserve_best_genes="        c  (true, false)
 mutation_genomes_selection "--mutation_genomes_selection=" c  (tournament,natural,roulette,sus)
 crossover_params           "--crossover="                  c  (uniform,multi_point)
@@ -44,4 +44,4 @@ crossover_points           "--points="                     i  (1, 5)            
 mutation                   "--mutation="                   c  (bit_flip)
 mutation_probability       "--mutation_probability="       r  (0, 0.01)
 fittest_survival           "--fittest_survival="           i  (1, half_population_size-1)               | preserve_best_genes == "true"
-fittest_genomes_selection  "--fittest_genomes_selection="  c  (tournament, natural,roulette,sus)        | preserve_best_genes == "true"
+fittest_genomes_selection  "--fittest_genomes_selection="  c  (tournament, natural,sus)                 | preserve_best_genes == "true"

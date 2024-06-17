@@ -1,16 +1,26 @@
 defmodule MyScript do
   def main(args \\ []) do
     args_map = parse_args(args)
-    Node.start(:"irace_elixir@127.0.0.1")
+    {:ok, hostname} = File.read("hostname.txt")
+    hostname = String.trim(hostname)
+    #IO.puts(hostname)
+    Node.start(:irace_elixir, :shortnames)
+    Node.set_cookie(:simulation)
+    #IO.puts(Node.self)
     {number_of_evaluations, _} = Integer.parse(args_map["number_of_evaluations"])
     {populations_n, _} = Integer.parse(args_map["populations"])
     {half_population_size, _} = Integer.parse(args_map["half_population_size"])
     problem = parse_atom(args_map["problem"])
     genomes_modification_params = get_genomes_modification_params(args_map)
     emigration_params = get_emigration_settings(args_map, populations_n)
+    #IO.puts("AAAAAA")
+    #IO.puts("AAAAAA")
+    #IO.puts(String.to_atom("meow_runner@" <> hostname))
+    #IO.puts("AAAAAA")
+    #IO.puts("AAAAAA")
 
     res =
-      :rpc.call(:"meow_runner@127.0.0.1", MeowRunner.Application, :run_meow, [
+      :rpc.call(String.to_atom("meow_runner@" <> hostname), MeowRunner.Application, :run_meow, [
         problem,
         half_population_size,
         number_of_evaluations,
@@ -18,6 +28,7 @@ defmodule MyScript do
         genomes_modification_params,
         emigration_params
       ])
+    File.write("result.txt", inspect(res))
 
     IO.puts(res * -1)
   end

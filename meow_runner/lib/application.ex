@@ -3,9 +3,7 @@ defmodule MeowRunner.Application do
 
   def start(_type, _args) do
     IO.puts("Starting the app\n")
-
     Nx.Defn.global_default_options(compiler: EXLA)
-    Node.start(:"meow_runner@127.0.0.1")
   end
 
   def run_meow(
