@@ -1,0 +1,1079 @@
+$scenario
+$scenario$scenarioFile
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace/scenario.txt"
+
+$scenario$execDir
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace"
+
+$scenario$parameterFile
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace/parameters_continous.txt"
+
+$scenario$logFile
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace/irace.Rdata"
+
+$scenario$trainInstancesDir
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace/Instances"
+
+$scenario$trainInstancesFile
+[1] ""
+
+$scenario$targetRunner
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace/target-runner"
+
+$scenario$maxExperiments
+[1] 300
+
+$scenario$forbiddenFile
+[1] ""
+
+$scenario$configurationsFile
+[1] ""
+
+$scenario$recoveryFile
+[1] ""
+
+$scenario$instances
+[1] "/home/anthony/Desktop/Folder/mgr/IraceMeowRunner/irace/Instances/instances-list.txt"
+
+$scenario$sampleInstances
+[1] TRUE
+
+$scenario$testInstancesDir
+[1] ""
+
+$scenario$testInstancesFile
+[1] ""
+
+$scenario$testNbElites
+[1] 1
+
+$scenario$testIterationElites
+[1] FALSE
+
+$scenario$testType
+[1] "friedman"
+
+$scenario$firstTest
+[1] 5
+
+$scenario$eachTest
+[1] 1
+
+$scenario$targetRunnerLauncher
+[1] ""
+
+$scenario$targetRunnerLauncherArgs
+[1] "{targetRunner} {targetRunnerArgs}"
+
+$scenario$targetRunnerRetries
+[1] 0
+
+$scenario$targetRunnerData
+[1] ""
+
+$scenario$deterministic
+[1] FALSE
+
+$scenario$maxTime
+[1] 0
+
+$scenario$budgetEstimation
+[1] 0.02
+
+$scenario$minMeasurableTime
+[1] 0.01
+
+$scenario$parallel
+[1] 0
+
+$scenario$loadBalancing
+[1] TRUE
+
+$scenario$mpi
+[1] FALSE
+
+$scenario$batchmode
+[1] "0"
+
+$scenario$digits
+[1] 4
+
+$scenario$quiet
+[1] FALSE
+
+$scenario$debugLevel
+[1] 0
+
+$scenario$seed
+[1] 1117128258
+
+$scenario$softRestart
+[1] TRUE
+
+$scenario$softRestartThreshold
+[1] 1e-04
+
+$scenario$elitist
+[1] TRUE
+
+$scenario$elitistNewInstances
+[1] 1
+
+$scenario$elitistLimit
+[1] 2
+
+$scenario$capping
+[1] FALSE
+
+$scenario$cappingType
+[1] "median"
+
+$scenario$boundType
+[1] "candidate"
+
+$scenario$boundDigits
+[1] 0
+
+$scenario$boundPar
+[1] 1
+
+$scenario$boundAsTimeout
+[1] TRUE
+
+$scenario$postselection
+[1] 0
+
+$scenario$aclib
+[1] FALSE
+
+$scenario$nbIterations
+[1] 0
+
+$scenario$nbExperimentsPerIteration
+[1] 0
+
+$scenario$minNbSurvival
+[1] 0
+
+$scenario$nbConfigurations
+[1] 0
+
+$scenario$mu
+[1] 5
+
+$scenario$confidence
+[1] 0.95
+
+
+$irace.version
+[1] "3.5.6863679"
+
+$parameters
+$parameters$names
+ [1] "problem"               "half_population_size"  "number_of_evaluations"
+ [4] "populations_number"    "migrate_animals"       "emigration_interval"  
+ [7] "emigration_topology"   "emigration_size"       "emigration_selection" 
+[10] "imigration_selection" 
+
+$parameters$types
+              problem  half_population_size number_of_evaluations 
+                  "c"                   "i"                   "c" 
+   populations_number       migrate_animals   emigration_interval 
+                  "i"                   "c"                   "i" 
+  emigration_topology       emigration_size  emigration_selection 
+                  "c"                   "i"                   "c" 
+ imigration_selection 
+                  "c" 
+
+$parameters$switches
+                   problem       half_population_size 
+              "--problem="  "--half_population_size=" 
+     number_of_evaluations         populations_number 
+"--number_of_evaluations="           "--populations=" 
+           migrate_animals        emigration_interval 
+      "--migrate_animals="              "--interval=" 
+       emigration_topology            emigration_size 
+             "--topology="       "--emigration_size=" 
+      emigration_selection       imigration_selection 
+ "--emigration_selection="  "--imigration_selection=" 
+
+$parameters$domain
+$parameters$domain$problem
+[1] "alpine"
+
+$parameters$domain$half_population_size
+[1] 50 51
+
+$parameters$domain$number_of_evaluations
+[1] "10"
+
+$parameters$domain$populations_number
+[1] 1 5
+
+$parameters$domain$migrate_animals
+[1] "true"  "false"
+
+$parameters$domain$emigration_interval
+[1]  1 10
+
+$parameters$domain$emigration_topology
+[1] "ring"            "mesh2d"          "mesh3d"          "fully_connected"
+[5] "star"           
+
+$parameters$domain$emigration_size
+[1] 1 8
+
+$parameters$domain$emigration_selection
+[1] "tournament" "natural"    "sus"       
+
+$parameters$domain$imigration_selection
+[1] "tournament" "natural"    "sus"       
+
+
+$parameters$conditions
+$parameters$conditions$problem
+[1] TRUE
+
+$parameters$conditions$half_population_size
+[1] TRUE
+
+$parameters$conditions$number_of_evaluations
+[1] TRUE
+
+$parameters$conditions$populations_number
+[1] TRUE
+
+$parameters$conditions$migrate_animals
+expression(populations_number > 1)
+
+$parameters$conditions$emigration_interval
+expression(migrate_animals == "true")
+
+$parameters$conditions$emigration_topology
+expression(migrate_animals == "true")
+
+$parameters$conditions$emigration_size
+expression(migrate_animals == "true")
+
+$parameters$conditions$emigration_selection
+expression(migrate_animals == "true")
+
+$parameters$conditions$imigration_selection
+expression(migrate_animals == "true")
+
+
+$parameters$isFixed
+              problem  half_population_size number_of_evaluations 
+                 TRUE                 FALSE                  TRUE 
+   populations_number       migrate_animals   emigration_interval 
+                FALSE                 FALSE                 FALSE 
+  emigration_topology       emigration_size  emigration_selection 
+                FALSE                 FALSE                 FALSE 
+ imigration_selection 
+                FALSE 
+
+$parameters$transform
+$parameters$transform$problem
+[1] ""
+
+$parameters$transform$half_population_size
+[1] ""
+
+$parameters$transform$number_of_evaluations
+[1] ""
+
+$parameters$transform$populations_number
+[1] ""
+
+$parameters$transform$migrate_animals
+[1] ""
+
+$parameters$transform$emigration_interval
+[1] ""
+
+$parameters$transform$emigration_topology
+[1] ""
+
+$parameters$transform$emigration_size
+[1] ""
+
+$parameters$transform$emigration_selection
+[1] ""
+
+$parameters$transform$imigration_selection
+[1] ""
+
+
+$parameters$isDependent
+              problem  half_population_size number_of_evaluations 
+                FALSE                 FALSE                 FALSE 
+   populations_number       migrate_animals   emigration_interval 
+                FALSE                 FALSE                 FALSE 
+  emigration_topology       emigration_size  emigration_selection 
+                FALSE                 FALSE                 FALSE 
+ imigration_selection 
+                FALSE 
+
+$parameters$depends
+$parameters$depends$problem
+character(0)
+
+$parameters$depends$half_population_size
+character(0)
+
+$parameters$depends$number_of_evaluations
+character(0)
+
+$parameters$depends$populations_number
+character(0)
+
+$parameters$depends$migrate_animals
+[1] "populations_number"
+
+$parameters$depends$emigration_interval
+[1] "migrate_animals"
+
+$parameters$depends$emigration_topology
+[1] "migrate_animals"
+
+$parameters$depends$emigration_size
+[1] "migrate_animals"
+
+$parameters$depends$emigration_selection
+[1] "migrate_animals"
+
+$parameters$depends$imigration_selection
+[1] "migrate_animals"
+
+
+$parameters$hierarchy
+              problem  half_population_size number_of_evaluations 
+                    1                     1                     1 
+   populations_number       migrate_animals   emigration_interval 
+                    1                     2                     3 
+  emigration_topology       emigration_size  emigration_selection 
+                    3                     3                     3 
+ imigration_selection 
+                    3 
+
+$parameters$nbParameters
+[1] 10
+
+$parameters$nbFixed
+[1] 2
+
+$parameters$nbVariable
+[1] 8
+
+
+$allElites
+$allElites[[1]]
+[1] 10  1  7
+
+$allElites[[2]]
+[1] 14 10
+
+$allElites[[3]]
+[1] 14 10
+
+$allElites[[4]]
+[1] 14 10
+
+$allElites[[5]]
+[1] 14 10
+
+
+$experiments
+           1        2        3        4        5        6        7        8
+1  10.007585 15.88058 22.07247 17.32038 20.84889 21.98596 16.77571 16.80251
+2  10.619613 16.78419 25.00248 17.42414 17.86171 24.40546 11.80859 18.68739
+3  12.210765 20.36173 28.77133 22.89882 20.95600 15.80216 12.36862 19.82518
+4  14.568515 14.36007 20.35288 21.23291 16.98572 13.04261 12.85102 16.12136
+5  14.299880 17.15101 22.32735 18.46566 20.16455 25.11438 12.19594 16.16983
+6   7.088285       NA       NA       NA       NA       NA 17.80061       NA
+7         NA       NA       NA       NA       NA       NA       NA       NA
+8         NA       NA       NA       NA       NA       NA       NA       NA
+9         NA       NA       NA       NA       NA       NA       NA       NA
+10        NA       NA       NA       NA       NA       NA       NA       NA
+11        NA       NA       NA       NA       NA       NA       NA       NA
+          9        10        11       12        13        14       15       16
+1  20.28802  9.359735 10.257635       NA  8.984114  4.914131       NA       NA
+2  19.82017  9.672295 11.339509 10.97738 11.341117  8.383813 10.62257 12.90737
+3  16.01489 12.055309  8.711991 11.34382  7.815312  9.585288 10.33266 18.36213
+4  17.60160  9.579538  9.144183 15.12140 11.671868  7.178692 13.06674 20.06575
+5  12.35463 11.839897 10.471334 14.50454  7.847994  7.649063 13.70422 18.64786
+6        NA  6.913931  7.902600 16.21010  7.729373  9.284070 12.87054 16.93918
+7        NA  5.797805        NA       NA        NA  6.802591       NA       NA
+8        NA  7.085678        NA       NA        NA 10.265855       NA       NA
+9        NA 10.425832        NA       NA        NA 11.389806       NA       NA
+10       NA  9.039356        NA       NA        NA  5.421773       NA       NA
+11       NA  9.943370        NA       NA        NA 10.974969       NA       NA
+         17        18        19        20       21        22        23
+1        NA  7.139437  7.978316 10.246282 22.12182  8.798821  9.472416
+2  22.34439 10.740670  7.846821        NA       NA  6.833991        NA
+3  24.16554 10.089581  8.112848 12.411356 19.98525  5.776299 11.712217
+4  22.46201  9.792722  8.548424  9.689628 16.61227  6.062709 10.473640
+5  15.70728  6.557669  6.767172  8.647412 18.99292 10.792177 11.019929
+6  21.66870 12.658974  6.701222        NA       NA 10.869847        NA
+7        NA        NA  8.187515  7.157238 21.71960 10.348316 10.524100
+8        NA        NA 10.524895        NA       NA  8.333278        NA
+9        NA        NA        NA        NA       NA        NA        NA
+10       NA        NA        NA        NA       NA        NA        NA
+11       NA        NA        NA        NA       NA        NA        NA
+          24        25       26        27       28        29        30
+1  10.885168  5.365982 15.06328 12.386601 16.47062 10.907498  3.973088
+2   9.449275  7.772931       NA  6.165554       NA 10.066161  8.013882
+3   9.767378 11.404595       NA 11.574412       NA 15.189725  6.787959
+4  10.597980  8.591810       NA 11.776573       NA 12.296472  6.720615
+5   5.747824  9.584068 14.65160  9.394129 21.76204  8.948657  8.789193
+6  10.497683  7.823205       NA 11.341032       NA  9.917884  8.058962
+7   6.302867  9.899385 16.85373  7.712803 11.26512  8.556183 14.895492
+8   6.660845  8.933548 14.41482  7.720945 20.89438  7.870267 11.238607
+9         NA        NA 12.39121  9.704363 12.55447  8.212429 10.637029
+10        NA        NA       NA 12.083789       NA 13.442459 11.442008
+11        NA        NA       NA        NA       NA        NA        NA
+          31        32       33        34        35        36       37
+1   6.475219  9.893221 13.71757        NA        NA        NA       NA
+2   8.355467 13.578993       NA 12.074179  7.982741  9.377814 18.96076
+3  11.729116 10.224131       NA 12.751642 12.570973  9.248975 21.29006
+4   7.958396  7.955048       NA        NA        NA        NA       NA
+5   9.819757  8.576656 11.59616 14.918559 10.815504 10.045827 17.94877
+6   9.472427  9.285686       NA        NA        NA        NA       NA
+7  10.538285 12.428905 10.93115        NA        NA        NA       NA
+8   7.070019  8.599487 18.06006  7.315754  8.868562  8.385340 10.99299
+9  11.767153 18.945141 11.33453        NA        NA        NA       NA
+10 11.989666  6.949646       NA        NA        NA        NA       NA
+11        NA        NA       NA 12.064140 11.633158  9.146164 15.03765
+          38       39        40
+1         NA       NA        NA
+2   8.489054 14.92657  7.832185
+3   5.706764 20.99391 11.802752
+4         NA       NA        NA
+5   7.459831 18.95612 10.758516
+6         NA       NA        NA
+7         NA       NA        NA
+8   6.472171 13.21309  5.185842
+9         NA       NA        NA
+10        NA       NA        NA
+11 12.002177 16.11432 10.084195
+
+$experimentLog
+       iteration instance configuration time bound
+  [1,]         1        1             1   NA    NA
+  [2,]         1        1             2   NA    NA
+  [3,]         1        1             3   NA    NA
+  [4,]         1        1             4   NA    NA
+  [5,]         1        1             5   NA    NA
+  [6,]         1        1             6   NA    NA
+  [7,]         1        1             7   NA    NA
+  [8,]         1        1             8   NA    NA
+  [9,]         1        1             9   NA    NA
+ [10,]         1        1            10   NA    NA
+ [11,]         1        2             1   NA    NA
+ [12,]         1        2             2   NA    NA
+ [13,]         1        2             3   NA    NA
+ [14,]         1        2             4   NA    NA
+ [15,]         1        2             5   NA    NA
+ [16,]         1        2             6   NA    NA
+ [17,]         1        2             7   NA    NA
+ [18,]         1        2             8   NA    NA
+ [19,]         1        2             9   NA    NA
+ [20,]         1        2            10   NA    NA
+ [21,]         1        3             1   NA    NA
+ [22,]         1        3             2   NA    NA
+ [23,]         1        3             3   NA    NA
+ [24,]         1        3             4   NA    NA
+ [25,]         1        3             5   NA    NA
+ [26,]         1        3             6   NA    NA
+ [27,]         1        3             7   NA    NA
+ [28,]         1        3             8   NA    NA
+ [29,]         1        3             9   NA    NA
+ [30,]         1        3            10   NA    NA
+ [31,]         1        4             1   NA    NA
+ [32,]         1        4             2   NA    NA
+ [33,]         1        4             3   NA    NA
+ [34,]         1        4             4   NA    NA
+ [35,]         1        4             5   NA    NA
+ [36,]         1        4             6   NA    NA
+ [37,]         1        4             7   NA    NA
+ [38,]         1        4             8   NA    NA
+ [39,]         1        4             9   NA    NA
+ [40,]         1        4            10   NA    NA
+ [41,]         1        5             1   NA    NA
+ [42,]         1        5             2   NA    NA
+ [43,]         1        5             3   NA    NA
+ [44,]         1        5             4   NA    NA
+ [45,]         1        5             5   NA    NA
+ [46,]         1        5             6   NA    NA
+ [47,]         1        5             7   NA    NA
+ [48,]         1        5             8   NA    NA
+ [49,]         1        5             9   NA    NA
+ [50,]         1        5            10   NA    NA
+ [51,]         2        6            10   NA    NA
+ [52,]         2        6             1   NA    NA
+ [53,]         2        6             7   NA    NA
+ [54,]         2        6            11   NA    NA
+ [55,]         2        6            12   NA    NA
+ [56,]         2        6            13   NA    NA
+ [57,]         2        6            14   NA    NA
+ [58,]         2        6            15   NA    NA
+ [59,]         2        6            16   NA    NA
+ [60,]         2        6            17   NA    NA
+ [61,]         2        6            18   NA    NA
+ [62,]         2        5            11   NA    NA
+ [63,]         2        5            12   NA    NA
+ [64,]         2        5            13   NA    NA
+ [65,]         2        5            14   NA    NA
+ [66,]         2        5            15   NA    NA
+ [67,]         2        5            16   NA    NA
+ [68,]         2        5            17   NA    NA
+ [69,]         2        5            18   NA    NA
+ [70,]         2        2            11   NA    NA
+ [71,]         2        2            12   NA    NA
+ [72,]         2        2            13   NA    NA
+ [73,]         2        2            14   NA    NA
+ [74,]         2        2            15   NA    NA
+ [75,]         2        2            16   NA    NA
+ [76,]         2        2            17   NA    NA
+ [77,]         2        2            18   NA    NA
+ [78,]         2        4            11   NA    NA
+ [79,]         2        4            12   NA    NA
+ [80,]         2        4            13   NA    NA
+ [81,]         2        4            14   NA    NA
+ [82,]         2        4            15   NA    NA
+ [83,]         2        4            16   NA    NA
+ [84,]         2        4            17   NA    NA
+ [85,]         2        4            18   NA    NA
+ [86,]         2        3            11   NA    NA
+ [87,]         2        3            12   NA    NA
+ [88,]         2        3            13   NA    NA
+ [89,]         2        3            14   NA    NA
+ [90,]         2        3            15   NA    NA
+ [91,]         2        3            16   NA    NA
+ [92,]         2        3            17   NA    NA
+ [93,]         2        3            18   NA    NA
+ [94,]         2        1            11   NA    NA
+ [95,]         2        1            13   NA    NA
+ [96,]         2        1            14   NA    NA
+ [97,]         2        1            18   NA    NA
+ [98,]         3        7            14   NA    NA
+ [99,]         3        7            10   NA    NA
+[100,]         3        7            19   NA    NA
+[101,]         3        7            20   NA    NA
+[102,]         3        7            21   NA    NA
+[103,]         3        7            22   NA    NA
+[104,]         3        7            23   NA    NA
+[105,]         3        7            24   NA    NA
+[106,]         3        7            25   NA    NA
+[107,]         3        1            19   NA    NA
+[108,]         3        1            20   NA    NA
+[109,]         3        1            21   NA    NA
+[110,]         3        1            22   NA    NA
+[111,]         3        1            23   NA    NA
+[112,]         3        1            24   NA    NA
+[113,]         3        1            25   NA    NA
+[114,]         3        3            19   NA    NA
+[115,]         3        3            20   NA    NA
+[116,]         3        3            21   NA    NA
+[117,]         3        3            22   NA    NA
+[118,]         3        3            23   NA    NA
+[119,]         3        3            24   NA    NA
+[120,]         3        3            25   NA    NA
+[121,]         3        4            19   NA    NA
+[122,]         3        4            20   NA    NA
+[123,]         3        4            21   NA    NA
+[124,]         3        4            22   NA    NA
+[125,]         3        4            23   NA    NA
+[126,]         3        4            24   NA    NA
+[127,]         3        4            25   NA    NA
+[128,]         3        5            19   NA    NA
+[129,]         3        5            20   NA    NA
+[130,]         3        5            21   NA    NA
+[131,]         3        5            22   NA    NA
+[132,]         3        5            23   NA    NA
+[133,]         3        5            24   NA    NA
+[134,]         3        5            25   NA    NA
+[135,]         3        2            19   NA    NA
+[136,]         3        2            22   NA    NA
+[137,]         3        2            24   NA    NA
+[138,]         3        2            25   NA    NA
+[139,]         3        6            19   NA    NA
+[140,]         3        6            22   NA    NA
+[141,]         3        6            24   NA    NA
+[142,]         3        6            25   NA    NA
+[143,]         3        8            14   NA    NA
+[144,]         3        8            10   NA    NA
+[145,]         3        8            19   NA    NA
+[146,]         3        8            22   NA    NA
+[147,]         3        8            24   NA    NA
+[148,]         3        8            25   NA    NA
+[149,]         4        9            14   NA    NA
+[150,]         4        9            10   NA    NA
+[151,]         4        9            26   NA    NA
+[152,]         4        9            27   NA    NA
+[153,]         4        9            28   NA    NA
+[154,]         4        9            29   NA    NA
+[155,]         4        9            30   NA    NA
+[156,]         4        9            31   NA    NA
+[157,]         4        9            32   NA    NA
+[158,]         4        9            33   NA    NA
+[159,]         4        5            26   NA    NA
+[160,]         4        5            27   NA    NA
+[161,]         4        5            28   NA    NA
+[162,]         4        5            29   NA    NA
+[163,]         4        5            30   NA    NA
+[164,]         4        5            31   NA    NA
+[165,]         4        5            32   NA    NA
+[166,]         4        5            33   NA    NA
+[167,]         4        8            26   NA    NA
+[168,]         4        8            27   NA    NA
+[169,]         4        8            28   NA    NA
+[170,]         4        8            29   NA    NA
+[171,]         4        8            30   NA    NA
+[172,]         4        8            31   NA    NA
+[173,]         4        8            32   NA    NA
+[174,]         4        8            33   NA    NA
+[175,]         4        7            26   NA    NA
+[176,]         4        7            27   NA    NA
+[177,]         4        7            28   NA    NA
+[178,]         4        7            29   NA    NA
+[179,]         4        7            30   NA    NA
+[180,]         4        7            31   NA    NA
+[181,]         4        7            32   NA    NA
+[182,]         4        7            33   NA    NA
+[183,]         4        1            26   NA    NA
+[184,]         4        1            27   NA    NA
+[185,]         4        1            28   NA    NA
+[186,]         4        1            29   NA    NA
+[187,]         4        1            30   NA    NA
+[188,]         4        1            31   NA    NA
+[189,]         4        1            32   NA    NA
+[190,]         4        1            33   NA    NA
+[191,]         4        2            27   NA    NA
+[192,]         4        2            29   NA    NA
+[193,]         4        2            30   NA    NA
+[194,]         4        2            31   NA    NA
+[195,]         4        2            32   NA    NA
+[196,]         4        6            27   NA    NA
+[197,]         4        6            29   NA    NA
+[198,]         4        6            30   NA    NA
+[199,]         4        6            31   NA    NA
+[200,]         4        6            32   NA    NA
+[201,]         4        3            27   NA    NA
+[202,]         4        3            29   NA    NA
+[203,]         4        3            30   NA    NA
+[204,]         4        3            31   NA    NA
+[205,]         4        3            32   NA    NA
+[206,]         4        4            27   NA    NA
+[207,]         4        4            29   NA    NA
+[208,]         4        4            30   NA    NA
+[209,]         4        4            31   NA    NA
+[210,]         4        4            32   NA    NA
+[211,]         4       10            14   NA    NA
+[212,]         4       10            10   NA    NA
+[213,]         4       10            27   NA    NA
+[214,]         4       10            29   NA    NA
+[215,]         4       10            30   NA    NA
+[216,]         4       10            31   NA    NA
+[217,]         4       10            32   NA    NA
+[218,]         5       11            14   NA    NA
+[219,]         5       11            10   NA    NA
+[220,]         5       11            34   NA    NA
+[221,]         5       11            35   NA    NA
+[222,]         5       11            36   NA    NA
+[223,]         5       11            37   NA    NA
+[224,]         5       11            38   NA    NA
+[225,]         5       11            39   NA    NA
+[226,]         5       11            40   NA    NA
+[227,]         5        5            34   NA    NA
+[228,]         5        5            35   NA    NA
+[229,]         5        5            36   NA    NA
+[230,]         5        5            37   NA    NA
+[231,]         5        5            38   NA    NA
+[232,]         5        5            39   NA    NA
+[233,]         5        5            40   NA    NA
+[234,]         5        3            34   NA    NA
+[235,]         5        3            35   NA    NA
+[236,]         5        3            36   NA    NA
+[237,]         5        3            37   NA    NA
+[238,]         5        3            38   NA    NA
+[239,]         5        3            39   NA    NA
+[240,]         5        3            40   NA    NA
+[241,]         5        8            34   NA    NA
+[242,]         5        8            35   NA    NA
+[243,]         5        8            36   NA    NA
+[244,]         5        8            37   NA    NA
+[245,]         5        8            38   NA    NA
+[246,]         5        8            39   NA    NA
+[247,]         5        8            40   NA    NA
+[248,]         5        2            34   NA    NA
+[249,]         5        2            35   NA    NA
+[250,]         5        2            36   NA    NA
+[251,]         5        2            37   NA    NA
+[252,]         5        2            38   NA    NA
+[253,]         5        2            39   NA    NA
+[254,]         5        2            40   NA    NA
+
+$state
+$state$.Random.seed
+  [1]       10403         182 -1988477797  1938952356  1548765192  1023931955
+  [7]    88175736  -594395505  1179870629  1284062830  -992808187  1942699250
+ [13]   297727358   756244761 -1681862554  1925647553  1989633999 -1417752368
+ [19]   169091239   618954000  -529886516  1093288439 -1620316100  -412719413
+ [25] -1435813399  1651105026   141479849 -1248416650 -2038775542  1135716229
+ [31]  1236265570  -410002491 -1765237349 -1013184196 -1852855357  -669743956
+ [37]  1646195088 -1220857365    50015696 -1597700073  1314193645  -277003290
+ [43]  -691202739   294273402 -1409402922   196059697   492362110  -307136071
+ [49]   958513943  -322368872 -1756798433 -1619538232 -1508412508  -192930273
+ [55] -2117841372  1272418435  -570294399  -529994582  1369117697   652620119
+ [61]  1357045595 -1489750951 -1433772500  -630523986 -1290284440  1245454714
+ [67]   -47577725  -604762831 -1066473051  2010236835 -1540177894 -1840106480
+ [73]   639291882  1050119828  -286446943 -1989940925 -1366902289  1900732741
+ [79]  -316255896   519375114 -1202367748 -1366059722 -1694750217   595772685
+ [85]  1529087177   873440383 -2016285274  -425399492  1038906942  -355175904
+ [91] -1938922923  -673418865 -1441489853  -822500207  -628800508  -760689018
+ [97]  1699833216   790037074   581571755 -1058478935   850291469   754410251
+[103]   927422370  -149389128 -1671859502   578292908  -634604903  1327906715
+[109]  1970137399   762107229    47279616  1417382018 -1567014860  -708714642
+[115]   663462015  -699207771 -1404378959  -138469017 -1697599826 -1059832668
+[121] -1992225914  -464179880  1600583917   671426311 -2076683029   322680905
+[127] -1222997156 -1418757890  1269732216    23857066  -812813613  1979941537
+[133] -2092357931   369774227  1123375210 -2107521088   837985882 -1933570396
+[139] -2024738831  1099469715  -276005889  1224149845  1576120568 -1888947174
+[145]  1954667724  2060929958   -12967865  -121986819  1592011033  1116345167
+[151]  -884483370 -1878021652  1149743726  1491212496  -337858331   296218047
+[157] -1653024621 -1760538815  -480712844    11170390  -672936368 -1526690046
+[163]  1579314619  -518443047   -27112963   551692475 -1123439246  1201000680
+[169] -1325394366  -631437124  -910368919  1976701739 -1253009337 -1448361363
+[175]  1556525904 -1346118318  -866592060  -651687202  1785241231 -1700971435
+[181]  2070221697  1485566263 -2144462434   -72633068  1280797814  -502713784
+[187]  1742439421 -1491639817  1675238267  1186253561 -1265948980  -520468146
+[193]  1297498760  -234826662  1908971811 -1756991471   312157125  -837515645
+[199] -1741243206 -1851667792   305508938 -1471641740  1240921345   981504355
+[205]  -180101809  2021543333  -967009336  1288840170  1559522908   684154838
+[211] -1711954729 -1136080467  -183155287 -2032700769  1478461894   -34813412
+[217]  -813773922  1428582144   413437045  -384208593  -922055325  -547224271
+[223]  1295612580 -1358077466 -1641258848   842578418  -287294133 -1548423927
+[229]  -139177043  -975943893   641360386   725053080  1136105458   900311308
+[235]  -114176775  1604194491   746101719  -752777667  1593393376  1022916322
+[241]  2132055892 -1420719858   640552095  1976634501  -483130479   566636231
+[247]   392398222  -197465468   102110438  -252099784  -488880563  -662466393
+[253]   677603851  1401076073  -223075460 -1241069026   920450328  2078476682
+[259] -1685409037  -499872255 -1565886347 -1221347469  -105542646   690439776
+[265] -1036583366    97777156  -514454063  1661277107  -559323553  -414316235
+[271]  1517505880 -1837835910   871721004   577493190   -97240153   571905693
+[277] -2088784263 -1072602513  -701459082 -1922073396  -984392370  -379507664
+[283]  1686635525 -1416313249  -989146573  1971174369    41908301   848990911
+[289]  -966056444 -1782289948  -152314536  -479677886  1153904179 -1992476653
+[295]  -545453097   -37735339   960218818 -1587606258  -923620538   748943540
+[301]  1457583725 -1992937927 -2132173039 -1427584845  1960891624  -819550304
+[307]  1486483892  -901737354  -590495337  -852092809   138086611  1358416225
+[313]   806196462 -1849490686 -1688275142   698288656 -1724260279 -1841723819
+[319] -1204790235 -1536320329 -1774690452  -964837524 -1465779184  1686114810
+[325]  1792651675  1304705691  -629233105  2054457469  1819418042  2014873334
+[331]  -327283298  -837117588    97401141  -920863327  1551069497  1177851099
+[337]  1407896928  1617231128  2086997468  -306789474 -1338473905  1287042479
+[343]  -779461637  -519778215  -395496490 -1632508070  -173435070  -925957896
+[349]  -251344223  1432069805  1283611517 -1168167249  2025253588 -1210430732
+[355]  -597700920   126616370   436132611  -653439581   502082247 -1086174587
+[361]  1675559506  1174651934  -140391498  2073881156 -2034467171 -1524007991
+[367]   712147585 -1674999069    54017624  1824856208  -730665212  1062345350
+[373]  2091811303 -1455938649  -606013853  1568200273   988985694 -1885097262
+[379]  -833472598  1912738400   524503705  -136677723   337817525  -910382841
+[385] -1142028964  -347156196   739182688   -65665782 -1678713077  1242509899
+[391]  -687355329 -1191635187  1025535658 -2055501850  1080589422 -1075842724
+[397] -1978398011  -631430383  1411549321  -583057301 -1124138128   297998120
+[403]  -162427892  -879943730 -1490445121   348120511  -507453717   600588777
+[409]  1233627942 -1002766902 -1090700334   600349864  -689727919   627010141
+[415] -1201615187  1108112351  1700967332 -2111276732 -1672943304   441106082
+[421] -1965303853  1291643379  -481491977   213716085 -1805389598 -1416881234
+[427]   -78447002   993993684  -739535155  1766953625   774164849 -1498660269
+[433]   712770760 -1728622592  1180187028  1234520214  1159487095 -1070702121
+[439] -1826591309 -1474378623 -1903938866  1996367970 -1443342566  -842725648
+[445]    33560361  2010835509  -659082619 -1842507113 -1672962996  1368111372
+[451] -1989430288  -801889254   553660091  -265450373 -1715169969  1149522222
+[457]  1099629377  2134246956   815332445 -1967216750 -1003120713  -289358762
+[463]   327961021   -66170394   982196369  2127412328  1652490997 -1141915418
+[469]  2134546959  1934089226   648146529   346697270  -350350295   393067964
+[475] -2029807795  -582525942  1590746111  -365816074  -463206419  -776214394
+[481]  -117344927 -1727057336  -415140035  -847906242 -1345153281  -201461142
+[487]  -467125119  1362735710  1638602625  -719895204   337383485   633756114
+[493]  -502809817 -1193653098   331876893  1104042342   208930417    58217400
+[499]   -87267275 -1438972602  -954455697  -987906038  1395658897  1389351526
+[505]  2083206441 -2034268196   -94471299  1170533482  1083329231  1080209510
+[511] -2142851747  1154122294 -1917954959    48254769   584215508   201459050
+[517]  1638790825   -89966791  -789106022  -658333184   364995433  -856124151
+[523] -1091513696  -354112750  1904113029 -1255499943  1264976930 -1300152564
+[529]   128788997 -1908364983  -940061228  -499508278   589951825   771163761
+[535]  -800990302   936819648  1092554409   735968081   892419320 -1299566350
+[541]  1224574005  -638068847  1706042762  1522250164  2119725517  -907884511
+[547]  -187972956  1424160218   694224041  -968340775    24308042 -1845750496
+[553]  -240889927  -516063287  1188997968 -2129639230  -989980891  -778654327
+[559]   -68288910 -1800644548   144214869  1637950953   477683108 -1764119206
+[565]   -84890079  1091909793  -710022398  1834610656   -26639431  -490790623
+[571]  -328633544  2092421218  2098467861  -601913295  -985314550  1726155252
+[577] -2065602067   397706769  -580525612 -2117466486  2099736329 -1939792903
+[583]   363870170 -1519853408   889098089  1469545225  -216443040 -1805608750
+[589] -2005004347 -1808526279  1485343010    66452748  2045473413  1551109161
+[595] -2009081068  -678090550 -1472177359 -1765262863   199878082  -986528480
+[601]   822037033  -442868943   506344440  -149747502   810888565 -1868373839
+[607]   124955402   -73557644   880897101   675469537  -474386684   227871002
+[613]   232657673   388340889 -2136218070   131922944 -1744033895  -361878583
+[619] -2005858576 -2098710942  1677653797  2054272329  -637294574  1864930844
+[625] -1487002573 -1986583013
+
+$state$.irace
+<environment: 0x56cc511f1f98>
+
+$state$currentBudget
+[1] 83
+
+$state$debugLevel
+[1] 0
+
+$state$eliteConfigurations
+   .ID. problem half_population_size number_of_evaluations populations_number
+14   14  alpine                   51                    10                  1
+10   10  alpine                   50                    10                  1
+   migrate_animals emigration_interval emigration_topology emigration_size
+14            <NA>                  NA                <NA>              NA
+10            <NA>                  NA                <NA>              NA
+   emigration_selection imigration_selection .PARENT. .ALIVE. .RANK.  .WEIGHT.
+14                 <NA>                 <NA>        7    TRUE     16 0.6666667
+10                 <NA>                 <NA>       NA    TRUE     17 0.3333333
+
+$state$experimentsUsedSoFar
+[1] 254
+
+$state$indexIteration
+[1] 6
+
+$state$minSurvival
+[1] 5
+
+$state$model
+$state$model$half_population_size
+$state$model$half_population_size$`14`
+[1]  0.3920421 51.0000000
+
+$state$model$half_population_size$`10`
+[1]  0.3023058 50.0000000
+
+
+$state$model$populations_number
+$state$model$populations_number$`14`
+[1] 1.568169 1.000000
+
+$state$model$populations_number$`10`
+[1] 1.209223 1.000000
+
+
+$state$model$migrate_animals
+$state$model$migrate_animals$`14`
+[1] 0.569152 0.430848
+
+$state$model$migrate_animals$`10`
+[1] 0.5 0.5
+
+
+$state$model$emigration_interval
+$state$model$emigration_interval$`14`
+[1]  3.528379 10.000000
+
+$state$model$emigration_interval$`10`
+[1] 2.720752       NA
+
+
+$state$model$emigration_topology
+$state$model$emigration_topology$`14`
+[1] 0.1760355 0.2958580 0.1760355 0.1760355 0.1760355
+
+$state$model$emigration_topology$`10`
+[1] 0.2 0.2 0.2 0.2 0.2
+
+
+$state$model$emigration_size
+$state$model$emigration_size$`14`
+[1] 2.744295 2.000000
+
+$state$model$emigration_size$`10`
+[1] 2.116141       NA
+
+
+$state$model$emigration_selection
+$state$model$emigration_selection$`14`
+[1] 0.4210273 0.2894863 0.2894863
+
+$state$model$emigration_selection$`10`
+[1] 0.3333333 0.3333333 0.3333333
+
+
+$state$model$imigration_selection
+$state$model$imigration_selection$`14`
+[1] 0.4210273 0.2894863 0.2894863
+
+$state$model$imigration_selection$`10`
+[1] 0.3333333 0.3333333 0.3333333
+
+
+
+$state$nbConfigurations
+[1] 9
+
+$state$nbIterations
+[1] 5
+
+$state$remainingBudget
+[1] 46
+
+$state$timeUsed
+[1] 0
+
+$state$boundEstimate
+[1] NA
+
+$state$rejectedIDs
+NULL
+
+$state$forbiddenExps
+NULL
+
+$state$completed
+[1] "Not enough budget to race more than the minimum configurations"
+
+$state$elapsed
+     user    system wallclock 
+  161.710    57.519   135.426 
+
+
+$allConfigurations
+   .ID. problem half_population_size number_of_evaluations populations_number
+1     1  alpine                   50                    10                  2
+2     2  alpine                   51                    10                  3
+3     3  alpine                   50                    10                  3
+4     4  alpine                   51                    10                  4
+5     5  alpine                   50                    10                  4
+6     6  alpine                   51                    10                  4
+7     7  alpine                   51                    10                  2
+8     8  alpine                   51                    10                  3
+9     9  alpine                   51                    10                  5
+10   10  alpine                   50                    10                  1
+11   11  alpine                   50                    10                  1
+12   12  alpine                   50                    10                  2
+13   13  alpine                   50                    10                  1
+14   14  alpine                   51                    10                  1
+15   15  alpine                   50                    10                  2
+16   16  alpine                   50                    10                  3
+17   17  alpine                   51                    10                  4
+18   18  alpine                   50                    10                  1
+19   19  alpine                   51                    10                  1
+20   20  alpine                   50                    10                  1
+21   21  alpine                   50                    10                  3
+22   22  alpine                   51                    10                  1
+23   23  alpine                   50                    10                  1
+24   24  alpine                   50                    10                  1
+25   25  alpine                   50                    10                  1
+26   26  alpine                   50                    10                  2
+27   27  alpine                   51                    10                  1
+28   28  alpine                   51                    10                  3
+29   29  alpine                   50                    10                  1
+30   30  alpine                   50                    10                  1
+31   31  alpine                   51                    10                  1
+32   32  alpine                   50                    10                  1
+33   33  alpine                   50                    10                  2
+34   34  alpine                   51                    10                  2
+35   35  alpine                   50                    10                  1
+36   36  alpine                   50                    10                  1
+37   37  alpine                   51                    10                  3
+38   38  alpine                   51                    10                  1
+39   39  alpine                   51                    10                  3
+40   40  alpine                   51                    10                  1
+   migrate_animals emigration_interval emigration_topology emigration_size
+1             true                  10              mesh3d               6
+2             true                   5              mesh2d               7
+3             true                   3                star               6
+4            false                  NA                <NA>              NA
+5            false                  NA                <NA>              NA
+6            false                  NA                <NA>              NA
+7             true                  10              mesh2d               2
+8            false                  NA                <NA>              NA
+9            false                  NA                <NA>              NA
+10            <NA>                  NA                <NA>              NA
+11            <NA>                  NA                <NA>              NA
+12           false                  NA                <NA>              NA
+13            <NA>                  NA                <NA>              NA
+14            <NA>                  NA                <NA>              NA
+15           false                  NA                <NA>              NA
+16           false                  NA                <NA>              NA
+17           false                  NA                <NA>              NA
+18            <NA>                  NA                <NA>              NA
+19            <NA>                  NA                <NA>              NA
+20            <NA>                  NA                <NA>              NA
+21            true                  10     fully_connected               7
+22            <NA>                  NA                <NA>              NA
+23            <NA>                  NA                <NA>              NA
+24            <NA>                  NA                <NA>              NA
+25            <NA>                  NA                <NA>              NA
+26           false                  NA                <NA>              NA
+27            <NA>                  NA                <NA>              NA
+28           false                  NA                <NA>              NA
+29            <NA>                  NA                <NA>              NA
+30            <NA>                  NA                <NA>              NA
+31            <NA>                  NA                <NA>              NA
+32            <NA>                  NA                <NA>              NA
+33            true                   8                ring               6
+34            true                   8                star               1
+35            <NA>                  NA                <NA>              NA
+36            <NA>                  NA                <NA>              NA
+37           false                  NA                <NA>              NA
+38            <NA>                  NA                <NA>              NA
+39            true                  10              mesh2d               4
+40            <NA>                  NA                <NA>              NA
+   emigration_selection imigration_selection .PARENT.
+1                   sus              natural       NA
+2            tournament                  sus       NA
+3                   sus                  sus       NA
+4                  <NA>                 <NA>       NA
+5                  <NA>                 <NA>       NA
+6                  <NA>                 <NA>       NA
+7            tournament           tournament       NA
+8                  <NA>                 <NA>       NA
+9                  <NA>                 <NA>       NA
+10                 <NA>                 <NA>       NA
+11                 <NA>                 <NA>       10
+12                 <NA>                 <NA>       10
+13                 <NA>                 <NA>       10
+14                 <NA>                 <NA>        7
+15                 <NA>                 <NA>       10
+16                 <NA>                 <NA>       10
+17                 <NA>                 <NA>        7
+18                 <NA>                 <NA>       10
+19                 <NA>                 <NA>       14
+20                 <NA>                 <NA>       10
+21                  sus              natural       10
+22                 <NA>                 <NA>       14
+23                 <NA>                 <NA>       14
+24                 <NA>                 <NA>       10
+25                 <NA>                 <NA>       10
+26                 <NA>                 <NA>       10
+27                 <NA>                 <NA>       14
+28                 <NA>                 <NA>       14
+29                 <NA>                 <NA>       10
+30                 <NA>                 <NA>       10
+31                 <NA>                 <NA>       14
+32                 <NA>                 <NA>       10
+33                  sus                  sus       10
+34           tournament           tournament       14
+35                 <NA>                 <NA>       14
+36                 <NA>                 <NA>       10
+37                 <NA>                 <NA>       14
+38                 <NA>                 <NA>       14
+39           tournament           tournament       14
+40                 <NA>                 <NA>       14
+
+$softRestart
+[1] FALSE  TRUE  TRUE  TRUE  TRUE
+
+$iterationElites
+[1] 10 14 14 14 14
+
